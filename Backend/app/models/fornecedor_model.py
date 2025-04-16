@@ -1,14 +1,12 @@
-from flask_sqlalchemy import SQLAlchemy
+from app import db
 
-db = SQLAlchemy()
-
-class FornecedorSolar(db.Model):
-    __tablename__ = 'fornecedores'
-
+class Fornecedor(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(120), nullable=False)
-    estado = db.Column(db.String(2), nullable=False)
-    cidade = db.Column(db.String(50))
-    site = db.Column(db.String(255))
-    email = db.Column(db.String(100))
+    nome = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
     telefone = db.Column(db.String(20))
+    cidade = db.Column(db.String(80))
+    estado = db.Column(db.String(2))
+
+    def __repr__(self):
+        return f'<Fornecedor {self.nome}>'
