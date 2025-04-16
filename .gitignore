@@ -1,0 +1,30 @@
+# Arquivos e pastas do Python
+__pycache__/
+*.pyc
+*.pyo
+dist/
+build/
+eggs/
+*.egg-info/
+.pytest_cache/
+.coverage
+*.log
+*.sqlite
+
+# Ambiente virtual
+.venv/
+venv/
+
+# Pasta de instância do Flask (onde geralmente fica o banco de dados SQLite)
+instance/
+
+# Outros arquivos temporários ou específicos do sistema operacional
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+*.env
+
+#Outros arquivos 
+Documentos
