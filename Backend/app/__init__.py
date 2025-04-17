@@ -14,7 +14,7 @@ def create_app():
     # Inicializa banco de dados com a aplicação
     db.init_app(app)
 
-    # Registra os blueprints (rotas organizadas)
+ # Registra os blueprints (rotas organizadas)
     from app.routes.auth_routes import auth_bp
     app.register_blueprint(auth_bp)
     from app.routes.simulacao_routes import simulador_bp
@@ -23,6 +23,11 @@ def create_app():
     app.register_blueprint(fornecedor_bp)
     from app.routes.user_routes import user_bp
     app.register_blueprint(user_bp)
+
+    # Importa e registra os blueprints do Swagger
+    from app.routes.documentacao import swagger_bp, swaggerui_blueprint
+    app.register_blueprint(swagger_bp)
+    app.register_blueprint(swaggerui_blueprint)
 
     return app
 

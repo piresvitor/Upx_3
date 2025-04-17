@@ -1,0 +1,410 @@
+openapi: 3.0.0
+info:
+  title: API de Simulação de Energia Solar
+  version: v1
+  description: API para cadastro de usuários, autenticação, simulação de viabilidade de energia solar, listagem de fornecedores e gerenciamento de dados do usuário.
+servers:
+  - url: http://localhost:5000 # Substitua pela URL da sua API
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CadastroPayload:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: João da Silva
+        email:
+          type: string
+          format: email
+          example: joao@example.com
+        senha:
+          type: string
+          format: password
+          example: senha123
+      required:
+        - nome
+        - email
+        - senha
+    LoginPayload:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          example: joao@example.com
+        senha:
+          type: string
+          format: password
+          example: senha123
+      required:
+        - email
+        - senha
+    TokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+    ErroResponse:
+      type: object
+      properties:
+        erro:
+          type: string
+          example: Mensagem de erro.
+    SimulacaoEnviarPayload:
+      type: object
+      properties:
+        consumos_kwh:
+          type: array
+          items:
+            type: number
+          example: [100, 120, 115, 130, 105, 110]
+          description: Lista dos consumos de energia elétrica dos últimos 6 meses em kWh.
+        tarifa_atual:
+          type: number
+          format: float
+          example: 0.85
+          description: Tarifa atual da energia elétrica em R$/kWh.
+      required:
+        - consumos_kwh
+        - tarifa_atual
+    SimulacaoResultadoResponse:
+      type: object
+      properties:
+        consumo_medio_mensal_kwh:
+          type: number
+          format: float
+          example: 113.33
+        consumo_anual_kwh:
+          type: number
+          format: float
+          example: 1360
+        num_placas_necessarias:
+          type: integer
+          example: 4
+        potencia_total_instalada_kwp:
+          type: number
+          format: float
+          example: 1.6
+        custo_estimado_sistema_reais:
+          type: number
+          format: float
+          example: 8000
+        economia_anual_estimada_reais:
+          type: number
+          format: float
+          example: 1156
+        payback_anos:
+          type: number
+          format: float
+          example: 6.9
+        vpl_reais:
+          type: number
+          format: float
+          example: 12500.50
+    Fornecedor:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: SolarTech
+        email:
+          type: string
+          format: email
+          example: contato@solartech.com.br
+        telefone:
+          type: string
+          example: (15) 99999-9999
+    ContatoFornecedorPayload:
+      type: object
+      properties:
+        fornecedor_id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: Cliente Interessado
+        email:
+          type: string
+          format: email
+          example: cliente@example.com
+        mensagem:
+          type: string
+          example: Gostaria de um orçamento para instalação de energia solar.
+      required:
+        - fornecedor_id
+        - nome
+        - email
+        - mensagem
+    MensagemResponse:
+      type: object
+      properties:
+        mensagem:
+          type: string
+          example: Operação realizada com sucesso.
+    UsuarioDadosResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: João da Silva
+        email:
+          type: string
+          format: email
+          example: joao@example.com
+    UsuarioEditarPayload:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: João Silva Novo
+        email:
+          type: string
+          format: email
+          example: joao.novo@example.com
+        senha:
+          type: string
+          format: password
+          example: nova_senha123
+      description: Pelo menos um dos campos é obrigatório para atualização.
+
+paths:
+  /auth/cadastro:
+    post:
+      summary: Cadastrar novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CadastroPayload'
+      responses:
+        '201':
+          description: Usuário cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagemResponse'
+        '400':
+          description: Erro de validação ou usuário já existente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+  /auth/login:
+    post:
+      summary: Autenticar usuário e obter token JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginPayload'
+      responses:
+        '200':
+          description: Autenticação bem-sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: Credenciais inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+  /auth/logout:
+    get:
+      summary: Finalizar sessão (requer autenticação)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Sessão finalizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagemResponse'
+        '401':
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+  /simulador/enviar:
+    post:
+      summary: Enviar dados de consumo para simulação
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SimulacaoEnviarPayload'
+      responses:
+        '202':
+          description: Dados recebidos e simulação iniciada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 123
+                  mensagem:
+                    type: string
+                    example: Dados recebidos e simulação iniciada.
+        '400':
+          description: Dados de entrada inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+  /simulador/resultado/{id}:
+    get:
+      summary: Obter resultado da simulação
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID da simulação
+      responses:
+        '200':
+          description: Resultado da simulação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimulacaoResultadoResponse'
+        '404':
+          description: Simulação não encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+  /fornecedores/lista:
+    get:
+      summary: Listar fornecedores cadastrados
+      responses:
+        '200':
+          description: Lista de fornecedores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Fornecedor'
+  /fornecedores/contato:
+    post:
+      summary: Enviar pedido de contato para fornecedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContatoFornecedorPayload'
+      responses:
+        '200':
+          description: Pedido de contato enviado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagemResponse'
+        '400':
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+  /usuario/dados:
+    get:
+      summary: Obter informações do usuário logado (requer autenticação)
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Informações do usuário
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioDadosResponse'
+        '401':
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+  /usuario/editar:
+    put:
+      summary: Atualizar dados do usuário (requer autenticação)
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioEditarPayload'
+      responses:
+        '200':
+          description: Dados do usuário atualizados com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagemResponse'
+        '400':
+          description: Erro de validação (ex email já existente)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+        '401':
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+  /usuario/{id}:
+    delete:
+      summary: Deletar um usuário (requer autenticação)
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID do usuário a ser deletado
+      responses:
+        '200':
+          description: Usuário deletado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagemResponse'
+        '401':
+          description: Não autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+        '404':
+          description: Usuário não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
