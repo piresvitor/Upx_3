@@ -17,6 +17,8 @@ def create_app():
     # Registra os blueprints (rotas organizadas)
     from app.routes.auth_routes import auth_bp
     app.register_blueprint(auth_bp)
+    from app.routes.simulacao_routes import simulador_bp
+    app.register_blueprint(simulador_bp)
     from app.routes.fornecedor_routes import fornecedor_bp
     app.register_blueprint(fornecedor_bp)
     from app.routes.user_routes import user_bp
@@ -24,5 +26,4 @@ def create_app():
 
     return app
 
-from app.models import user_model
-from app.models import fornecedor_model
+from app.models import user_model, simulacao_model, fornecedor_model

@@ -1,17 +1,15 @@
-from flask_sqlalchemy import SQLAlchemy
+from app import db
 from datetime import datetime
 
-db = SQLAlchemy()
-
-class SimulacaoSolar(db.Model):
+class Simulacao(db.Model):
     __tablename__ = 'simulacoes'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    economia_estimativa = db.Column(db.Float, nullable=False)
-    investimento_estimado = db.Column(db.Float, nullable=False)
-    retorno_anos = db.Column(db.Float, nullable=False)
-    emissao_evitar = db.Column(db.Float)  # kg CO2 evitados
-    data_simulacao = db.Column(db.DateTime, default=datetime.utcnow)
+    consumos_kwh = db.Column(db.JSON, nullable=False) # Lista de consumos mensais
+    tarifa_atual = db.Column(db.Float, nullable=False)
+    data_envio = db.Column(db.DateTime, default=datetime.utcnow)
+    resultado = db.Column(db.JSON) # Armazenará os resultados da simulação
 
-    user = db.relationship('User', backref=db.backref('simulacoes', lazy=True))
+    def __repr__(self):
+        return f'<Simulacao {self.id}>'
+    
