@@ -18,9 +18,10 @@ fornecedores do setor e gerenciamento de informações do usuário.
   facilmente alterado para outros bancos de dados suportados pelo SQLAlchemy).
 * **JWT (JSON Web Tokens):** Utilizado para autenticação e autorização de usuários,
   garantindo a segurança das rotas protegidas.
+* **Numpy:** Utilizado para calculos matematicos e estatisticos
 * **Swagger/OpenAPI:** Utilizado para a documentação da API, facilitando a compreensão
   e o consumo por desenvolvedores frontend e outros clientes.
-* **Postman:** (Mencionado indiretamente) Uma ferramenta útil para testar os endpoints da API.
+* **Postman:** Uma ferramenta útil para testar os endpoints da API.
 
 ## Rotas da API
 
