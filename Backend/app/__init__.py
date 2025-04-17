@@ -26,4 +26,4 @@ def create_app():
 
     return app
 
-from app.models import user_model, simulacao_model, fornecedor_model
+from app.models import user_model, fornecedor_model

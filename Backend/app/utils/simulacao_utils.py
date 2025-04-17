@@ -1,7 +1,6 @@
 import numpy as np
 
 # Dados de irradiação solar média anual para uma localização hipotética (kWh/m²/ano)
-# *** IMPORTANTE: Substitua por dados reais da região ***
 IRRADIACAO_ANUAL = 1500
 
 # Perdas do sistema (%)
