@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard - SolarLink</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+  <link rel="stylesheet" href="./src/styles/style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+  <header>
+    <nav id="navbar">
+      <ul id="nav_list">
+        <li class="nav-item active"><a href="dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a href="index.html">Home</a></li>
+      </ul>
+
+      <button id="btn-logout" class="btn-default">Logout</button>
+    </nav>
+  </header>
+
+  <main id="content" style="padding: 2rem 8%;">
+    <h1>Bem-vindo(a), <span id="user-nome"></span></h1>
+    <p>Email: <span id="user-email"></span></p>
+
+    <section style="margin-top: 2rem;">
+      <h2>Enviar Simulação</h2>
+      <form id="form-simulacao" style="max-width: 500px;">
+        <label for="input-consumos">Consumos últimos 6 meses (kWh) - separados por vírgula</label>
+        <input type="text" id="input-consumos" placeholder="ex: 100, 120, 115, 130, 105, 110" required style="width: 100%; padding: 8px; margin-bottom: 12px;" />
+
+        <label for="input-tarifa">Tarifa atual (R$/kWh)</label>
+        <input type="number" step="0.01" id="input-tarifa" placeholder="ex: 0.85" required style="width: 100%; padding: 8px; margin-bottom: 12px;" />
+
+        <button type="submit" class="btn-default">Enviar Simulação</button>
+      </form>
+
+      <div id="simulacao-sucesso" style="margin-top: 1rem; color: green; display: none;"></div>
+      <div id="simulacao-erro" style="margin-top: 1rem; color: red; display: none;"></div>
+    </section>
+
+    <section style="margin-top: 3rem;">
+      <h2>Consultar Resultado da Simulação</h2>
+      <form id="form-consulta" style="max-width: 300px;">
+        <label for="input-id-simulacao">ID da simulação</label>
+        <input type="number" id="input-id-simulacao" placeholder="ex: 123" required style="width: 100%; padding: 8px; margin-bottom: 12px;" />
+        <button type="submit" class="btn-default">Obter Resultado</button>
+      </form>
+
+      <div id="resultado-simulacao" style="margin-top: 1rem; display: none;">
+        <h3>Resultado:</h3>
+        <pre id="resultado-json" style="background: #fafafa; padding: 12px; border-radius: 6px; overflow-x: auto;"></pre>
+      </div>
+
+      <div id="consulta-erro" style="margin-top: 1rem; color: red; display: none;"></div>
+    </section>
+  </main>
+
+  <script src="./src/scripts/dashboard.js"></script>
+</body>
+</html>

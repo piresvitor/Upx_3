@@ -1,13 +1,271 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./src/styles/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
     <title>SolarLink</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+    <link rel="icon" type="image/x-icon" href="./src/img/favicon.png">
+
+</head>
+<body>
+    <header>
+        <nav id="navbar">
+            <ul id="nav_list">
+                <li class="nav-item active">
+                    <a href="#home">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#menu">Vantagens</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#testimonials">Avaliações</a>
+                </li> 
+            </ul>
+
+            <button class="btn-default">
+                Login
+            </button>
+
+
+            <button id="mobile_btn">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </nav>
+
+        <div id="mobile_menu">
+            <ul id="mobile_nav_list">
+                <li class="nav-item">
+                    <a href="#home">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#menu">Vantagens</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#testimonials">Avaliações</a>
+                </li> 
+            </ul>
+            <button class="btn-default">
+                Login
+            </button>
+            
+        </div>
+    </header>
+    <!-- Modal Login -->
+    <div id="modal-login" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" id="close-login">&times;</span>
+    <h2>Login</h2>
+    <form id="form-login">
+      <label for="login-email">Email</label>
+      <input type="email" id="login-email" required>
+      <label for="login-senha">Senha</label>
+      <input type="password" id="login-senha" required>
+      <button type="submit" class="btn-default">Entrar</button>
+    </form>
+    <p>Não tem conta? <a href="#" id="to-register">Cadastre-se aqui</a></p>
+  </div>
+    </div>
+
+<!-- Modal Cadastro -->
+    <div id="modal-cadastro" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" id="close-cadastro">&times;</span>
+    <h2>Cadastro</h2>
+    <form id="form-cadastro">
+      <label for="cadastro-nome">Nome</label>
+      <input type="text" id="cadastro-nome" required>
+      <label for="cadastro-email">Email</label>
+      <input type="email" id="cadastro-email" required>
+      <label for="cadastro-senha">Senha</label>
+      <input type="password" id="cadastro-senha" required>
+      <button type="submit" class="btn-default">Cadastrar</button>
+    </form>
+    <p>Já tem conta? <a href="#" id="to-login">Faça login</a></p>
+  </div>
+    </div>
+    <main id="content">
+        <section id="home">
+            <div class="shape"></div>
+            <div id="cta">
+                <h1 class="title"> 
+                    <span>Solar Link</span> Descomplicando a energia solar!
+                </h1>
+                <p class="description">
+                    Descubra Quanto Você Poderia Economizar com Energia Solar!
+                </p>
+                <p>
+                    Faça uma simulação gratuita agora e veja se vale a pena mudar!
+                </p>
+                <div id="cta_buttons">
+                    <a href="#" class="btn-default">
+                        Login
+                    </a>
+                    <a href="#" class="btn-default">
+                        Cadastre-se
+                    </a>
+                </div>
+                <div class="social-media-buttons">
+                    <a href="">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="">
+                        <i class="fa-brands fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+            <div id="banner">
+                <img src="./src/img/logo.png" alt="Logo do SolarLink">
+            </div>
+        </section>
+
+        <section id="menu">
+            <h2 class="section-title">Vantagens</h2>
+            <h3 class="section-subtitle">Conheça as vantagens da energia solar</h3>
+
+            <div id="dishes">
+                <div class="dish">
+                    <div class="dish-heart">
+                        <i class="fa-solid fa-heart"></i>
+                    </div>
+
+                    <img src="./src/img/funcionalidade 1.png" class="dish-image" alt="funcionalidades 1">
+                    <h3 class="dish-title">
+                        Economia na Conta de Luz
+                    </h3>   
+                    <span class="dish-description">
+                        Veja quanto você poderia ter economizado nos últimos 6 meses usando energia solar.
+                    </span>
+                    <button class="btn-default">
+                        <i class="fa-solid fa-book"></i>
+                        <h4> Leia mais</h4>
+                    </button>
+                    </div>
+
+                    <div class="dish">
+                        <div class="dish-heart">
+                            <i class="fa-solid fa-heart"></i>
+                        </div>
+    
+                        <img src="./src/img/funcionalidade 2.png" class="dish-image" alt="funcionalidades 2">
+                        <h3 class="dish-title">
+                            Sustentabilidade
+                        </h3>   
+                        <span class="dish-description">
+                            Reduza sua pegada de carbono ao gerar energia limpa e renovável.
+                        </span>
+                            <button class="btn-default">
+                                <i class="fa-solid fa-book"></i>
+                                <h4> Leia mais</h4>
+                            </button>
+                        </div>
+
+                        <div class="dish">
+                            <div class="dish-heart">
+                                <i class="fa-solid fa-heart"></i>
+                            </div>
+        
+                            <img src="./src/img/funcionalidade 3.png" class="dish-image" alt="funcionalidades 3">
+                            <h3 class="dish-title">
+                                Projeções Futuras
+                            </h3>   
+                            <span class="dish-description">
+                                Simule quanto você pode economizar nos próximos anos com um sistema solar.
+                            </span>
+                                <button class="btn-default">
+                                    <i class="fa-solid fa-book"></i>
+                                    <h4> Leia mais</h4>
+                                </button>
+                            </div>
+                </div>
+        </section>
+
+        <section id="testimonials">
+            <img src="./src/img/aval.png" id="testimonial_aval">
+ 
+            <div id="testimonials_content">
+                 <h2 class="section-title">
+                     Avaliações
+                 </h2>
+                 <h3 class="section-subtitle">
+                     O que os clientes falam sobre nós
+                 </h3>
+ 
+                 <div id="feedbacks">
+                     <div class="feedback">
+                         <img src="./src/img/avatar.png" class="feedback-avatar"alt="">
+                     
+                         <div class="feedback-content">
+                             <p>
+                                 Fulana de Tal
+                                 <span>
+                                     <i class="fa-solid fa-star"></i>
+                                     <i class="fa-solid fa-star"></i>
+                                     <i class="fa-solid fa-star"></i>
+                                     <i class="fa-solid fa-star"></i>
+                                     <i class="fa-solid fa-star"></i>
+                                 </span>
+                             </p>
+                             <p>
+                                 "Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                                 Debitis delectus, natus amet nostrum accusantium 
+                                 incidunt blanditiis explicabo,"
+                             </p>
+                         </div>
+                     </div>
+ 
+                     <div class="feedback">
+                         <img src="./src/img/avatar.png" class="feedback-avatar"alt="">
+                     
+                         <div class="feedback-content">
+                             <p>
+                                 Fulana de Tal
+                                 <span>
+                                     <i class="fa-solid fa-star"></i>
+                                     <i class="fa-solid fa-star"></i>
+                                     <i class="fa-solid fa-star"></i>
+                                     <i class="fa-solid fa-star"></i>
+                                     <i class="fa-solid fa-star"></i>
+                                 </span>
+                             </p>
+                             <p>
+                                 "Lorem ipsum dolor, sit amet consectetur adipisicing elit. 
+                                 Debitis delectus, natus amet nostrum accusantium 
+                                 incidunt blanditiis explicabo,"
+                             </p>
+                         </div>
+                     </div>
+                 </div>
+ 
+                 <button class="btn-default">
+                     Ver mais Avaliações
+                 </button>
+            </div>
+         </section> 
+    </main>
+
+    <footer class="footer">
+        <img src="./src/img/wave.svg">
+
+        <div id="footer_items">
+            <span id="copyright">
+                &copy 2025 Inova Tech
+            </span>
+
+            <div class="social-media-buttons">
+                <a href="">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="">
+                    <i class="fa-brands fa-facebook"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./src/scripts/script.js"></script>
+</body>
 </html>

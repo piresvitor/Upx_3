@@ -2,9 +2,11 @@ openapi: 3.0.0
 info:
   title: API de Simulação de Energia Solar
   version: v1
-  description: API para cadastro de usuários, autenticação, simulação de viabilidade de energia solar, listagem de fornecedores e gerenciamento de dados do usuário.
+  description: >
+    API para cadastro de usuários, autenticação, simulação de viabilidade de energia solar, 
+    listagem de fornecedores e gerenciamento de dados do usuário.
 servers:
-  - url: http://localhost:5000 # Substitua pela URL da sua API
+  - url: http://localhost:5000
 
 components:
   securitySchemes:
@@ -25,12 +27,12 @@ components:
           example: joao@example.com
         senha:
           type: string
-          format: password
           example: senha123
       required:
         - nome
         - email
         - senha
+
     LoginPayload:
       type: object
       properties:
@@ -40,23 +42,25 @@ components:
           example: joao@example.com
         senha:
           type: string
-          format: password
           example: senha123
       required:
         - email
         - senha
+
     TokenResponse:
       type: object
       properties:
         token:
           type: string
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+
     ErroResponse:
       type: object
       properties:
         erro:
           type: string
           example: Mensagem de erro.
+
     SimulacaoEnviarPayload:
       type: object
       properties:
@@ -64,16 +68,18 @@ components:
           type: array
           items:
             type: number
-          example: [100, 120, 115, 130, 105, 110]
           description: Lista dos consumos de energia elétrica dos últimos 6 meses em kWh.
         tarifa_atual:
           type: number
           format: float
-          example: 0.85
           description: Tarifa atual da energia elétrica em R$/kWh.
       required:
         - consumos_kwh
         - tarifa_atual
+      example:
+        consumos_kwh: [100, 120, 115, 130, 105, 110]
+        tarifa_atual: 0.85
+
     SimulacaoResultadoResponse:
       type: object
       properties:
@@ -108,6 +114,7 @@ components:
           type: number
           format: float
           example: 12500.50
+
     Fornecedor:
       type: object
       properties:
@@ -124,6 +131,7 @@ components:
         telefone:
           type: string
           example: (15) 99999-9999
+
     ContatoFornecedorPayload:
       type: object
       properties:
@@ -145,12 +153,14 @@ components:
         - nome
         - email
         - mensagem
+
     MensagemResponse:
       type: object
       properties:
         mensagem:
           type: string
           example: Operação realizada com sucesso.
+
     UsuarioDadosResponse:
       type: object
       properties:
@@ -164,6 +174,7 @@ components:
           type: string
           format: email
           example: joao@example.com
+
     UsuarioEditarPayload:
       type: object
       properties:
@@ -176,9 +187,9 @@ components:
           example: joao.novo@example.com
         senha:
           type: string
-          format: password
           example: nova_senha123
-      description: Pelo menos um dos campos é obrigatório para atualização.
+      description: Pelo menos um dos campos deve ser fornecido para atualização.
+      required: []  # todos opcionais, validação é feita na aplicação
 
 paths:
   /auth/cadastro:
@@ -203,6 +214,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErroResponse'
+
   /auth/login:
     post:
       summary: Autenticar usuário e obter token JWT
@@ -225,6 +237,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErroResponse'
+
   /auth/logout:
     get:
       summary: Finalizar sessão (requer autenticação)
@@ -243,6 +256,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErroResponse'
+
   /simulador/enviar:
     post:
       summary: Enviar dados de consumo para simulação
@@ -272,6 +286,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErroResponse'
+
   /simulador/resultado/{id}:
     get:
       summary: Obter resultado da simulação
@@ -295,6 +310,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErroResponse'
+
   /fornecedores/lista:
     get:
       summary: Listar fornecedores cadastrados
@@ -307,6 +323,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Fornecedor'
+
   /fornecedores/contato:
     post:
       summary: Enviar pedido de contato para fornecedor
@@ -329,6 +346,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErroResponse'
+
   /usuario/dados:
     get:
       summary: Obter informações do usuário logado (requer autenticação)
@@ -347,6 +365,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErroResponse'
+
   /usuario/editar:
     put:
       summary: Atualizar dados do usuário (requer autenticação)
@@ -377,6 +396,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErroResponse'
+
   /usuario/{id}:
     delete:
       summary: Deletar um usuário (requer autenticação)
