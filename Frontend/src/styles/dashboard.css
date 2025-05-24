@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+:root {
+  --cor-fundo: #fff9ea;
+  --font-principal: 'Poppins', sans-serif;
+  --color-logo: #FB820C;
+  --color-menu: #1d1d1dad;
+  --color-menu-active: #1d1d1d;
+  --color-btn: #FC840B;
+  --color-btn-hover:#d26e0b;
+  --cor-shape: #ffb265;
+}
+
+* {
+  font-family: var(--font-principal);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--cor-fundo);
+  color: var(--color-menu);
+  text-align: center;
+}
+
+h1, h2, h3 {
+  color: var(--color-menu-active);
+  margin-bottom: 16px;
+}
+
+#content {
+  margin-top: 40px;
+}
+
+#tab-buttons {
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 8px;
+}
+
+.tab-btn {
+  background-color: var(--color-btn);
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 18px;
+  box-shadow: 0 0 15px 2px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease;
+}
+
+.tab-btn:hover {
+  background-color: var(--color-btn-hover);
+}
+
+.tab-btn.active {
+  background-color: var(--color-btn-hover);
+}
+
+.tab-content {
+  display: none;
+  padding: 20px 0;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 0 12px 4px rgba(0,0,0,0.1);
+}
+
+.tab-content.active {
+  display: block;
+}
+
+#tabela-simulacao {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  margin-top: 12px;
+}
+
+#tabela-simulacao th, #tabela-simulacao td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+#tabela-simulacao th {
+  background-color: var(--color-btn);
+  color: white;
+  font-weight: 600;
+}
+
+#lista-simulacoes ul {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-simulacao {
+  background-color: var(--color-btn);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 18px;
+  box-shadow: 0 0 15px 2px rgba(0,0,0,0.1);
+  text-align: left;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.btn-simulacao:hover {
+  background-color: var(--color-btn-hover);
+}
+
+.msg-sucesso {
+  color: green;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+.msg-erro {
+  color: red;
+  margin-top: 12px;
+  font-weight: 600;
+}
+
+canvas#chart-simulacao {
+  margin-top: 24px;
+  border-radius: 12px;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  #tabela-simulacao th,
+  #tabela-simulacao td {
+    font-size: 0.75rem;
+    padding: 8px;
+  }
+
+  .tab-btn {
+    padding: 8px 16px;
+  }
+
+  .btn-simulacao {
+    padding: 10px 16px;
+  }
+}

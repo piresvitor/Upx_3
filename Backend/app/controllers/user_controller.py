@@ -1,22 +1,12 @@
 from flask import jsonify, request
 from app.models.user_model import User
 from app import db
-from app.utils.jwt_manager import decode_token
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
+@jwt_required()
 def obter_dados_usuario():
-    token = request.headers.get('Authorization')
-    if not token:
-        return jsonify({"erro": "Token de autenticação não fornecido."}), 401
-
-    # Remover o prefixo "Bearer " se presente
-    if token.startswith('Bearer '):
-        token = token[7:]
-   
-    user_id = decode_token(token)
-    if not user_id:
-        return jsonify({"erro": "Token de autenticação inválido."}), 401
-    print(f"Tipo de user_id: {type(user_id)}, Valor de user_id: {user_id}") 
-    user = User.query.get(user_id)
+    user_identity = get_jwt_identity()
+    user = User.query.filter_by(email=user_identity).first()
 
     if not user:
         return jsonify({"erro": "Usuário não encontrado."}), 404
@@ -27,21 +17,11 @@ def obter_dados_usuario():
         "email": user.email
     }), 200
 
+@jwt_required()
 def editar_usuario():
-    token = request.headers.get('Authorization')
-    if not token:
-        return jsonify({"erro": "Token de autenticação não fornecido."}), 401
+    user_identity = get_jwt_identity()
+    user = User.query.filter_by(email=user_identity).first()
 
-    # Remover o prefixo "Bearer " se presente
-    if token.startswith('Bearer '):
-        token = token[7:]
-
-    user_id = decode_token(token)
-    if not user_id:
-        return jsonify({"erro": "Token de autenticação inválido."}), 401
-    print(f"Tipo de user_id: {type(user_id)}, Valor de user_id: {user_id}")
-
-    user = User.query.get(user_id)
     if not user:
         return jsonify({"erro": "Usuário não encontrado."}), 404
 
@@ -64,21 +44,11 @@ def editar_usuario():
         db.session.rollback()
         return jsonify({"erro": f"Erro ao atualizar dados do usuário: {str(e)}"}), 500
 
+@jwt_required()
 def deletar_usuario():
-    token = request.headers.get('Authorization')
-    if not token:
-        return jsonify({"erro": "Token de autenticação não fornecido."}), 401
+    user_identity = get_jwt_identity()
+    user = User.query.filter_by(email=user_identity).first()
 
-    # Remover o prefixo "Bearer " se presente
-    if token.startswith('Bearer '):
-        token = token[7:]
-
-    user_id = decode_token(token)
-    if not user_id:
-        return jsonify({"erro": "Token de autenticação inválido."}), 401
-    print(f"Tipo de user_id: {type(user_id)}, Valor de user_id: {user_id}")
-
-    user = User.query.get(user_id)
     if not user:
         return jsonify({"erro": "Usuário não encontrado."}), 404
 

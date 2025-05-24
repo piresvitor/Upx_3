@@ -1,62 +1,79 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard - SolarLink</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-  <link rel="stylesheet" href="./src/styles/style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard - SolarLink</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+<link rel="stylesheet" href="./src/styles/dashboard.css" />
+<link rel="stylesheet" href="./src/styles/style.css">
+<link rel="icon" type="image/x-icon" href="./src/img/favicon.png">
 </head>
+
 <body>
-  <header>
-    <nav id="navbar">
-      <ul id="nav_list">
-        <li class="nav-item active"><a href="dashboard.html">Dashboard</a></li>
-        <li class="nav-item"><a href="index.html">Home</a></li>
-      </ul>
+<header>
+  <nav id="navbar" style="background-color: var(--cor-fundo); padding:20px 8%; display:flex; justify-content:space-between; align-items:center;">
+    <ul id="nav_list" style="display:flex; list-style:none; gap:20px; margin:0; padding:0;">
+      <li class="nav-item active"><a href="#">Dashboard</a></li>
+      <li class="nav-item"><a href="index.html">Home</a></li>
+    </ul>
+    <button id="btn-logout" class="btn-default">Logout</button>
+  </nav>
+</header>
+<main id="content" style="padding: 2rem 8%;">
+  <h1>Bem-vindo(a), <span id="user-nome"></span></h1>
+  <p>Email: <span id="user-email"></span></p>
 
-      <button id="btn-logout" class="btn-default">Logout</button>
-    </nav>
-  </header>
-
-  <main id="content" style="padding: 2rem 8%;">
-    <h1>Bem-vindo(a), <span id="user-nome"></span></h1>
-    <p>Email: <span id="user-email"></span></p>
-
-    <section style="margin-top: 2rem;">
-      <h2>Enviar Simulação</h2>
-      <form id="form-simulacao" style="max-width: 500px;">
-        <label for="input-consumos">Consumos últimos 6 meses (kWh) - separados por vírgula</label>
-        <input type="text" id="input-consumos" placeholder="ex: 100, 120, 115, 130, 105, 110" required style="width: 100%; padding: 8px; margin-bottom: 12px;" />
-
-        <label for="input-tarifa">Tarifa atual (R$/kWh)</label>
-        <input type="number" step="0.01" id="input-tarifa" placeholder="ex: 0.85" required style="width: 100%; padding: 8px; margin-bottom: 12px;" />
-
-        <button type="submit" class="btn-default">Enviar Simulação</button>
-      </form>
-
-      <div id="simulacao-sucesso" style="margin-top: 1rem; color: green; display: none;"></div>
-      <div id="simulacao-erro" style="margin-top: 1rem; color: red; display: none;"></div>
-    </section>
-
-    <section style="margin-top: 3rem;">
-      <h2>Consultar Resultado da Simulação</h2>
-      <form id="form-consulta" style="max-width: 300px;">
-        <label for="input-id-simulacao">ID da simulação</label>
-        <input type="number" id="input-id-simulacao" placeholder="ex: 123" required style="width: 100%; padding: 8px; margin-bottom: 12px;" />
-        <button type="submit" class="btn-default">Obter Resultado</button>
-      </form>
-
-      <div id="resultado-simulacao" style="margin-top: 1rem; display: none;">
-        <h3>Resultado:</h3>
-        <pre id="resultado-json" style="background: #fafafa; padding: 12px; border-radius: 6px; overflow-x: auto;"></pre>
-      </div>
-
-      <div id="consulta-erro" style="margin-top: 1rem; color: red; display: none;"></div>
-    </section>
-  </main>
-
-  <script src="./src/scripts/dashboard.js"></script>
+  <div id="tabs">
+    <div id="tab-buttons">
+      <button class="tab-btn active" data-tab="enviar">Enviar Simulação</button>
+      <button class="tab-btn" data-tab="visualizar">Visualizar Resultados</button>
+    </div>
+    <div id="tab-contents">
+      <!-- Aba Enviar Simulação -->
+      <section id="enviar" class="tab-content active">
+        <form id="form-simulacao" style="max-width: 500px;">
+          <label for="input-consumos">Consumos últimos 6 meses (kWh) - separados por vírgula</label>
+          <input type="text" id="input-consumos" placeholder="ex: 100, 120, 115, 130, 105, 110" required style="width: 100%; padding: 8px; margin-bottom: 12px;" />
+          <label for="input-tarifa">Tarifa atual (R$/kWh)</label>
+          <input type="number" step="0.01" id="input-tarifa" placeholder="ex: 0.85" required style="width: 100%; padding: 8px; margin-bottom: 12px;" />
+          <button type="submit" class="btn-default">Enviar Simulação</button>
+        </form>
+        <div id="simulacao-sucesso" class="msg-sucesso" style="display:none;"></div>
+        <div id="simulacao-erro" class="msg-erro" style="display:none;"></div>
+      </section>
+      <!-- Aba Visualizar Resultados -->
+      <section id="visualizar" class="tab-content">
+        <h2>Minhas Simulações</h2>
+        <div id="lista-simulacoes"><p>Carregando simulações...</p></div>
+        <div id="detalhes-simulacao" style="margin-top:2rem; display:none;">
+          <h3>Detalhes da Simulação <span id="simulacao-id"></span></h3>
+          <table id="tabela-simulacao" >
+            <thead>
+              <tr>
+                <th>Consumo Médio Mensal (kWh)</th>
+                <th>Consumo Anual (kWh)</th>
+                <th>Número de Placas Necessárias</th>
+                <th>Potência Total Instalada (kWp)</th>
+                <th>Custo Estimado do Sistema (R$)</th>
+                <th>Economia Anual Estimada (R$)</th>
+                <th>Payback (anos)</th>
+                <th>VPL (R$)</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <canvas id="chart-simulacao" width="600" height="300" style="margin-top: 20px;"></canvas>
+          <h3>Projeção de Economia e Impacto Ambiental</h3>
+          <canvas id="chart-projecoes" width="600" height="300" style="margin-top: 20px;"></canvas>
+        </div>
+        <div id="visualizacao-erro" class="msg-erro" style="margin-top:10px; display:none;"></div>
+      </section>
+    </div>
+  </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="./src/scripts/dashboard.js"></script>
 </body>
 </html>

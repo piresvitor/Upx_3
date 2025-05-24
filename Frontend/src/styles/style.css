@@ -447,6 +447,28 @@ h4{
         width: 100%;
     }
 }
+
+.tab-btn {
+  background-color: var(--color-btn);
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background-color: var(--color-btn-hover);
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
 footer{
     display: flex;
     flex-direction: column;

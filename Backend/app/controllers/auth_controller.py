@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from app.models.user_model import User, db
-from app.utils.jwt_manager import generate_token, decode_token
+from flask_jwt_extended import create_access_token
 
 def cadastro():
     data = request.get_json()
@@ -24,7 +24,7 @@ def login():
 
     usuario = User.query.filter_by(email=email).first()
     if usuario and usuario.check_password(senha):
-        token = generate_token(usuario.id)
+        token = create_access_token(identity=usuario.email)  # ou 'usuario.id' se preferir
         return jsonify({"token": token}), 200
 
     return jsonify({"erro": "Credenciais inválidas."}), 401
