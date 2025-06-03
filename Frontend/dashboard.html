@@ -80,9 +80,9 @@
   <button id="btn-explica-tabela" class="btn-default" type="button" title="Explicação dos dados">
     <i class="fa-solid fa-circle-info"></i> Explicar Dados
   </button>
-  <button id="btn-gerar-pdf" class="btn-default">
+  <button onclick="gerarPdf()" id="btn-gerar-pdf" class="btn-default">
     <i class="fa-solid fa-file-pdf"></i> Gerar PDF
-  </button>
+</button>
 </div>
 
 <!-- Modal explicação tabela -->
@@ -130,6 +130,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="./src/scripts/dashboard.js"></script>
 </body>
 </html>

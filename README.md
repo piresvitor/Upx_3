@@ -66,3 +66,64 @@ A interface Swagger UI permite explorar os endpoints da API, entender seus requi
 e até mesmo fazer requisições diretamente para testar as funcionalidades.
 
 ![alt text](image.png)
+
+---
+
+# Frontend
+
+Esta seção explica o uso do frontend construído para consumir a API.
+
+## Estrutura do Frontend
+
+O frontend é dividido em páginas estáticas HTML, estilizadas com CSS e interativas com JavaScript (jQuery e Chart.js).
+
+### Página Inicial
+
+Contém o menu principal, seção de vantagens, avaliações e botões para login e cadastro.
+
+### Dashboard
+
+- Contém menu com os links Dashboard, Fornecedores e Início.  
+- Área principal com abas:  
+  - **Enviar Simulação:** formulário para inserir consumos e tarifa e enviar para a API.  
+  - **Visualizar Resultados:** lista de simulações anteriores, tabela detalhada e gráficos.  
+- Botões extras:  
+  - Ajuda para uso do simulador.  
+  - Explicações detalhadas de cada coluna da tabela.  
+  - Gerar PDF com tabela e gráfico (inclui gráfico convertido em imagem no PDF).  
+- Funcionalidade de logout limpa o token e redireciona à página inicial.
+
+### Página Fornecedores
+
+- Menu igual ao dashboard.  
+- Lista estilizada de fornecedores com nome, telefone e email.  
+- Botão para abrir modal de contato com o fornecedor.  
+- Modal permite enviar mensagem para fornecedor via backend.
+
+## Principais Tecnologias no Frontend
+
+* **jQuery:** Para manipulação DOM e requisições AJAX com token JWT.  
+* **Chart.js:** Para gráficos dinâmicos (barras no resultado e linhas em projeções).  
+* **jsPDF + jsPDF-AutoTable + html2canvas:** Para geração de PDF com tabelas e gráfico incorporado.  
+* **CSS com variáveis e responsividade:** Seguindo padrão visual consistente com o design geral.  
+
+## Fluxo de autenticação e segurança
+
+- Após login, o token JWT é salvo em `localStorage` e enviado em `Authorization: Bearer <token>` em todas requisições protegidas.  
+- Decorações de rotas no backend usam `@jwt_required()` garantindo que só usuários autenticados acessem recursos sensíveis.  
+- O logout remove o token localmente e pode disparar rota backend opcional para confirmação.  
+
+## Exemplos de chamadas AJAX protegidas no frontend
+
+```js
+$.ajax({
+  url: 'http://localhost:5000/simulador/lista',
+  method: 'GET',
+  headers: {'Authorization': 'Bearer ' + localStorage.getItem('token')},
+  success: function(data) { /* ... */ },
+  error: function(xhr) {
+    if(xhr.status === 401) {
+      // tratar token inválido ou expirado
+    }
+  }
+});

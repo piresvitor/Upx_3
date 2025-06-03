@@ -210,6 +210,17 @@ header {
   margin-top: 40px;
 }
 
+.nav-item a {
+  text-decoration: none;
+  color: var(--color-menu);
+  font-weight: 700;
+}
+
+.nav-item.active a {
+  color: var(--color-menu-active);
+  border-bottom: 3px solid #e68004;
+}
+
 #navbar{
     width: 100%;
     display: flex;
@@ -223,16 +234,6 @@ header {
     gap: 50px;
 }
 
-.nav-item a{
-    text-decoration: none;
-    color: var(--color-menu);
-    font-weight: 700;
-}
-
-.nav-item.active a{
-    color: var(--color-menu-active);
-    border-bottom: 3px solid #e68004;
-}
 
 #mobile_btn{
     display: none;

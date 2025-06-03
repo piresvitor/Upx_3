@@ -317,25 +317,27 @@ $(document).ready(function(){
    }
 });
 
-$('#btn-gerar-pdf').click(async function() {
+async function gerarPdf() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
 
-  // Informações básicas — ajuste conforme seus dados reais
   const userName = $('#user-nome').text() || '';
   const userEmail = $('#user-email').text() || '';
 
-  doc.setFontSize(18);
+  doc.setFontSize(16);
   doc.text('Relatório Solar Link', 14, 20);
 
   doc.setFontSize(12);
   doc.text(`Usuário: ${userName}`, 14, 30);
   doc.text(`Email: ${userEmail}`, 14, 38);
 
-  // Texto explicativo opcional
   doc.text('Dados da simulação:', 14, 48);
 
-  // Montar dados da tabela
+  $('#btn-gerar-pdf').click(function(){
+    gerarPdf();
+  });
+
+  // Gera tabela
   const headers = [
     'Consumo Médio Mensal (kWh)', 
     'Consumo Anual (kWh)',
@@ -357,24 +359,33 @@ $('#btn-gerar-pdf').click(async function() {
     data.push(row);
   });
 
-  if(data.length === 0){
-    alert('Nenhum dado para gerar PDF.');
-    return;
-  }
+  // Ajusta onde a tabela começará (y)
+  const yAfterText = 55;
 
   doc.autoTable({
-    startY: 55,
+    startY: yAfterText,
     head: [headers],
     body: data,
     theme: 'striped',
   });
 
+  // Pega posição final da tabela para colocar o gráfico abaixo
+  const finalY = doc.lastAutoTable.finalY + 10;
+
+  // Captura o canvas do gráfico (id do canvas)
+  const canvas = document.getElementById('chart-simulacao');
+
+  // Usa html2canvas para converter o canvas para imagem
+  const imgData = await html2canvas(canvas).then(canvas => canvas.toDataURL('image/png'));
+
+  // Opcional: ajuste a largura e altura para caber no PDF
+  const imgProps = doc.getImageProperties(imgData);
+  const pdfWidth = doc.internal.pageSize.getWidth() - 24; // margem 12 dos dois lados
+  const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+  // Insere imagem no PDF depois da tabela
+  doc.addImage(imgData, 'PNG', 14, finalY, pdfWidth, pdfHeight);
+
+  // Salva o PDF
   doc.save(`Simulacao_${userName}_${new Date().toISOString().slice(0,10)}.pdf`);
-});
-
-$(document).ready(function(){
-  let path = window.location.pathname.split("/").pop();
-
-  $("#nav_list li").removeClass("active");
-  $(`#nav_list li a[href="${path}"]`).parent().addClass("active");
-});
+}
