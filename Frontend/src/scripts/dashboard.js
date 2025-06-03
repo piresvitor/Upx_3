@@ -103,6 +103,13 @@ $(document).ready(function(){
     });
   });
 
+  $('#btn-explicacao').click(function(){
+  $('#modal-explicacao').removeClass('hidden');
+});
+$('#close-explicacao').click(function(){
+  $('#modal-explicacao').addClass('hidden');
+});
+
   // Carregar lista de simulações
   function carregarSimulacoes() {
     $('#lista-simulacoes').html('<p>Carregando simulações...</p>');
