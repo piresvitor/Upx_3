@@ -12,15 +12,28 @@
 
 <body>
 <header>
-  <nav id="navbar" style="background-color: var(--cor-fundo); padding:20px 8%; display:flex; justify-content:space-between; align-items:center;">
-    <ul id="nav_list" style="display:flex; list-style:none; gap:20px; margin:0; padding:0;">
-      <li class="nav-item active"><a href="#">Dashboard</a></li>
-      <li class="nav-item"><a href="index.html">Home</a></li>
-    </ul>
-    <button id="btn-logout" class="btn-default">Logout</button>
-  </nav>
+  <nav id="navbar">
+  <ul id="nav_list">
+    <li class="nav-item">
+      <a href="dashboard.html">Dashboard</a>
+    </li>
+    <li class="nav-item active">
+      <a href="fornecedores.html">Fornecedores</a>
+    </li>
+    <li class="nav-item">
+      <a href="index.html">Início</a>
+    </li>
+  </ul>
+  <button id="btn-logout" class="btn-default">Logout</button>
+</nav>
 </header>
-<main id="content" style="padding: 2rem 8%;">
+<main id="content" style="
+  max-width: 960px;
+  margin: 40px auto 80px;
+  padding: 0 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+">
   <h1>Bem-vindo(a), <span id="user-nome"></span></h1>
   <p>Email: <span id="user-email"></span></p>
 

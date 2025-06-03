@@ -1,6 +1,3 @@
-# README.md
-
-"""
 # API de Simulação de Energia Solar
 
 Este projeto consiste em uma API RESTful desenvolvida em Python utilizando o framework Flask.

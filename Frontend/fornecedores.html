@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fornecedores - Solar Link</title>
+  <link 
+    href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" 
+    rel="stylesheet" />
+  <link 
+    rel="stylesheet" 
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="./src/styles/style.css" />
+</head>
+<body>
+<header>
+  <nav id="navbar">
+    <ul id="nav_list">
+      <li class="nav-item"><a href="dashboard.html">Dashboard</a></li>
+      <li class="nav-item active"><a href="fornecedores.html">Fornecedores</a></li>
+      <li class="nav-item"><a href="index.html">Início</a></li>
+    </ul>
+    <button class="btn-default" id="btn-logout">Logout</button>
+  </nav>
+</header>
+
+<main id="content" style="padding: 2rem 8%; max-width: 900px; margin: auto;">
+  <h1 class="section-title" style="margin-bottom: 1.5rem;">Fornecedores Indicados</h1>
+
+  <div id="lista-fornecedores">
+    <!-- Lista carregada por JS -->
+    <p>Carregando fornecedores...</p>
+  </div>
+
+  <!-- Modal de contato fornecedor -->
+  <div id="modal-contato" class="modal hidden">
+    <div class="modal-content" style="max-width: 400px;">
+      <span class="close" id="close-contato">&times;</span>
+      <h2>Contato com Fornecedor</h2>
+      <form id="form-contato-fornecedor">
+        <input type="hidden" id="fornecedor-id" />
+        <label for="contato-nome">Seu nome</label>
+        <input id="contato-nome" type="text" required />
+        <label for="contato-email">Seu email</label>
+        <input id="contato-email" type="email" required />
+        <label for="contato-mensagem">Mensagem</label>
+        <textarea id="contato-mensagem" rows="4" required></textarea>
+        <button type="submit" class="btn-default" style="margin-top: 12px;">Enviar Mensagem</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="mensagem-resultado" style="margin-top: 20px;"></div>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="./src/scripts/fornecedores.js"></script>
+</body>
+</html>

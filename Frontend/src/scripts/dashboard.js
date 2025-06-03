@@ -371,3 +371,10 @@ $('#btn-gerar-pdf').click(async function() {
 
   doc.save(`Simulacao_${userName}_${new Date().toISOString().slice(0,10)}.pdf`);
 });
+
+$(document).ready(function(){
+  let path = window.location.pathname.split("/").pop();
+
+  $("#nav_list li").removeClass("active");
+  $(`#nav_list li a[href="${path}"]`).parent().addClass("active");
+});
