@@ -103,12 +103,21 @@ $(document).ready(function(){
     });
   });
 
+//Como Usar
   $('#btn-explicacao').click(function(){
-  $('#modal-explicacao').removeClass('hidden');
-});
-$('#close-explicacao').click(function(){
-  $('#modal-explicacao').addClass('hidden');
-});
+    $('#modal-explicacao').removeClass('hidden');
+  });
+  $('#close-explicacao').click(function(){
+    $('#modal-explicacao').addClass('hidden');
+  });
+
+  //Detalhes tabela
+  $('#btn-explica-tabela').click(function(){
+    $('#modal-explica-tabela').removeClass('hidden');
+  });
+  $('#close-explica-tabela').click(function(){
+    $('#modal-explica-tabela').addClass('hidden');
+  });
 
   // Carregar lista de simulações
   function carregarSimulacoes() {
@@ -306,4 +315,59 @@ $('#close-explicacao').click(function(){
       }
     });
    }
+});
+
+$('#btn-gerar-pdf').click(async function() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  // Informações básicas — ajuste conforme seus dados reais
+  const userName = $('#user-nome').text() || '';
+  const userEmail = $('#user-email').text() || '';
+
+  doc.setFontSize(18);
+  doc.text('Relatório Solar Link', 14, 20);
+
+  doc.setFontSize(12);
+  doc.text(`Usuário: ${userName}`, 14, 30);
+  doc.text(`Email: ${userEmail}`, 14, 38);
+
+  // Texto explicativo opcional
+  doc.text('Dados da simulação:', 14, 48);
+
+  // Montar dados da tabela
+  const headers = [
+    'Consumo Médio Mensal (kWh)', 
+    'Consumo Anual (kWh)',
+    'Nº de Placas Necessárias',
+    'Potência Total (kWp)',
+    'Custo Estimado (R$)',
+    'Economia Anual (R$)',
+    'Payback (anos)',
+    'VPL (R$)'
+  ];
+
+  const $tbody = $('#tabela-simulacao tbody');
+  const data = [];
+  $tbody.find('tr').each(function() {
+    const row = [];
+    $(this).find('td').each(function() {
+      row.push($(this).text());
+    });
+    data.push(row);
+  });
+
+  if(data.length === 0){
+    alert('Nenhum dado para gerar PDF.');
+    return;
+  }
+
+  doc.autoTable({
+    startY: 55,
+    head: [headers],
+    body: data,
+    theme: 'striped',
+  });
+
+  doc.save(`Simulacao_${userName}_${new Date().toISOString().slice(0,10)}.pdf`);
 });

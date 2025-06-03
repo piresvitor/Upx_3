@@ -62,6 +62,33 @@
         <div id="lista-simulacoes"><p>Carregando simulações...</p></div>
         <div id="detalhes-simulacao" style="margin-top:2rem; display:none;">
           <h3>Detalhes da Simulação <span id="simulacao-id"></span></h3>
+          <div style="display:flex; align-items:center; gap: 10px; margin-bottom:8px;">
+  <h3>Detalhes da Simulação <span id="simulacao-id"></span></h3>
+  <button id="btn-explica-tabela" class="btn-default" type="button" title="Explicação dos dados">
+    <i class="fa-solid fa-circle-info"></i> Explicar Dados
+  </button>
+  <button id="btn-gerar-pdf" class="btn-default">
+    <i class="fa-solid fa-file-pdf"></i> Gerar PDF
+  </button>
+</div>
+
+<!-- Modal explicação tabela -->
+<div id="modal-explica-tabela" class="modal hidden">
+  <div class="modal-content">
+    <span class="close" id="close-explica-tabela">&times;</span>
+    <h2>Explicação dos Dados da Tabela</h2>
+              <ul>
+                <li><b>Consumo Médio Mensal (kWh):</b> Média de consumo mensal nos últimos meses.</li>
+                <li><b>Consumo Anual (kWh):</b> Consumo estimado para o ano.</li>
+                <li><b>Número de Placas Necessárias:</b> Quantidade recomendada de placas solares.</li>
+                <li><b>Potência Total Instalada (kWp):</b> Potência total do sistema instalado.</li>
+                <li><b>Custo Estimado do Sistema (R$):</b> Investimento aproximado para instalação.</li>
+                <li><b>Economia Anual Estimada (R$):</b> Valor que se espera economizar no ano.</li>
+                <li><b>Payback (anos):</b> Tempo para retorno do investimento.</li>
+                <li><b>VPL (R$):</b> Valor Presente Líquido do investimento.</li>
+              </ul>
+            </div>
+          </div>
           <table id="tabela-simulacao" >
             <thead>
               <tr>
@@ -88,6 +115,8 @@
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 <script src="./src/scripts/dashboard.js"></script>
 </body>
 </html>
